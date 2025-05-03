@@ -25,7 +25,7 @@ class HiwonderRobot:
         self.bsc = BusServoControl(self.board)
 
         self.joint_values = [0, 0, 90, -30, 0, 0]  # degrees
-        self.home_position = [0, 0, 90, -30, 0, 0]  # degrees
+        self.home_position = [0, 0, 120, -60, 0, 0]  # degrees
         self.joint_limits = [
             [-120, 120], [-90, 90], [-120, 120],
             [-100, 100], [-90, 90], [-120, 30]
