@@ -426,9 +426,10 @@ def get_coordinates():
             x, y, z = ee_position
             x = -(x-0.04)
             y = -y
-            ee_position = None
             sleep(1)
-            if index > 3 and last_coords != [int(x), int(y)]:
+            if last_coords == [int(x), int(y)]:
+                index = 0
+            if index > 3:
                 ee_position = None
                 last_coords = [int(x), int(y)]
                 return x,y,z,block_color
