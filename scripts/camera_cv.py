@@ -415,7 +415,7 @@ def get_coordinates():
         if ee_position is not None:
             index += 1
             sleep(1)
-            if index > 5:
+            if index > 1:
                 x, y, z = ee_position
                 x = -(x-0.02)
                 y = -y
