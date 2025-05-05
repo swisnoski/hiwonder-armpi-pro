@@ -106,7 +106,7 @@ class HiwonderRobot:
         self.set_joint_values(theta)
 
     def go_to_position_low(self, pos):
-        EE = utils2.EndEffector(pos[0], pos[1], 0.01, self.robot.ee.rotx, self.robot.ee.roty, self.robot.ee.rotz)
+        EE = utils2.EndEffector(pos[0], pos[1], 0.00, self.robot.ee.rotx, self.robot.ee.roty, self.robot.ee.rotz)
         theta = np.degrees(self.robot.solve_inverse_kinematics(EE, tol=0.01))
         theta = np.append(theta, -120)
         if theta[0] > 0: 
@@ -119,11 +119,11 @@ class HiwonderRobot:
         return theta
 
     def close(self, theta):
-        theta[5] = 90
+        theta[5] = 120
         self.set_joint_values(theta)
 
     def open(self, theta):
-        theta[5] = -90
+        theta[5] = -120
         self.set_joint_values(theta)
 
     def sort(self, color):
