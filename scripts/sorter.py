@@ -24,7 +24,7 @@ def main():
         robot.close(theta)
         sleep(2)
 
-        robot.sort(block_color)
+        theta = robot.sort(block_color)
         sleep(1)
 
         robot.open(theta)

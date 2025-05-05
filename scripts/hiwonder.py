@@ -134,6 +134,7 @@ class HiwonderRobot:
             theta = [-180, 0, 90, -30, 0, 90]
         # print(theta)
         self.set_joint_values(theta)
+        return theta
 
 
     def set_arm_velocity(self, cmd: ut.GamepadCmds):
