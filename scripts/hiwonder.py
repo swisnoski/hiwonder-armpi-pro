@@ -113,7 +113,7 @@ class HiwonderRobot:
             theta[0] = theta[0]*2.5
         theta[1] -= 2
         theta[2] += 4
-        theta[3] -= 15
+        theta[3] -= 30
         # print(theta)
         self.set_joint_values(theta)
         return theta
