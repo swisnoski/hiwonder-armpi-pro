@@ -111,9 +111,9 @@ class HiwonderRobot:
             theta[0] = theta[0]*3
         if EE.x > 0.25: 
             theta[3] -= 3
-        theta[1] -= 3
-        theta[2] += 3
-        theta[3] -= 3
+        theta[1] -= 4
+        theta[2] += 4
+        theta[3] -= 4
         # print(theta)
         self.set_joint_values(theta)
         return theta
