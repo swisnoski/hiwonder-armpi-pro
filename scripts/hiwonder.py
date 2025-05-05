@@ -10,6 +10,9 @@ import numpy as np
 from board_controller import BoardController
 from servo_bus_controller import ServoBusController
 import utils as ut
+from arm_models import FiveDOFRobot
+from camera_cv import get_coordinates
+
 
 # Robot base constants
 WHEEL_RADIUS = 0.047  # meters
@@ -30,6 +33,8 @@ class HiwonderRobot:
         ]
         self.joint_control_delay = 0.2 # secs
         self.speed_control_delay = 0.2
+
+        self.robot = FiveDOFRobot()
 
         self.move_to_home_position()
 
