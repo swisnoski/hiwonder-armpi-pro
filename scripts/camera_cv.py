@@ -414,9 +414,10 @@ def get_coordinates():
         ee_position = cv_main(ret, frame)
         if ee_position is not None:
             index += 1
+            ee_position = None
+            x, y, z = ee_position
             sleep(1)
             if index > 3:
-                x, y, z = ee_position
                 x = -(x-0.02)
                 y = -y
                 ee_position = None
