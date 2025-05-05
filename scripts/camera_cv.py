@@ -410,6 +410,7 @@ last_coords = None
 
 def get_coordinates():
     global last_coords
+    global ee_position
     index = 0
     while True:
         ret, frame = cap.read()
