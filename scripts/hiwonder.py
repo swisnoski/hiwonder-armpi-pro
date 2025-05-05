@@ -111,11 +111,9 @@ class HiwonderRobot:
         theta = np.append(theta, -120)
         if theta[0] > 0: 
             theta[0] = theta[0]*2.5
-        if EE.x > 0.25: 
-            theta[3] -= 3
         theta[1] -= 2
         theta[2] += 4
-        theta[3] -= 8
+        theta[3] -= 11
         # print(theta)
         self.set_joint_values(theta)
         return theta

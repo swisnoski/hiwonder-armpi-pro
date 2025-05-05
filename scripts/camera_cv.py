@@ -417,6 +417,6 @@ def get_coordinates():
             sleep(1)
             if index > 5:
                 x, y, z = ee_position
-                x = -(x-0.015)
+                x = -(x-0.02)
                 y = -y
                 return x,y,z, block_color
