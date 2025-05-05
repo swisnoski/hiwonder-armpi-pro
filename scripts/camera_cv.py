@@ -414,7 +414,7 @@ def get_coordinates():
         ee_position = cv_main(ret, frame)
         if ee_position is not None:
             index += 1
-            x, y, z, block_color = ee_position
+            x, y, z = ee_position
             ee_position = None
             sleep(1)
             if index > 3:
