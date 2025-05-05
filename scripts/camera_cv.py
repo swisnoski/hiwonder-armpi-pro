@@ -413,6 +413,7 @@ ee_position = None
 last_coords = None
 
 def get_coordinates():
+    sleep(2)
     global last_coords
     global ee_position
     index = 0
@@ -428,8 +429,10 @@ def get_coordinates():
             y = -y
             sleep(1)
             if last_coords == [int(x), int(y)]:
+                print('match!')
                 index = 0
-            if index > 3:
+            if index > 5:
                 ee_position = None
                 last_coords = [int(x), int(y)]
+                sleep(2)
                 return x,y,z,block_color
