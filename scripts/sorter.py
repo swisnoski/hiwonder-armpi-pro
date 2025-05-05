@@ -11,7 +11,7 @@ def main():
     while True: 
         robot.move_to_home_position()
         sleep(1)
-        
+
         x, y, z, block_color = get_coordinates()
         sleep(1)
 
@@ -22,13 +22,13 @@ def main():
         sleep(1)
 
         robot.close(theta)
-        sleep(1)
+        sleep(2)
 
         robot.sort(block_color)
         sleep(1)
 
         robot.open(theta)
-        sleep(1)
+        sleep(2)
 
         robot.move_to_home_position()
 
