@@ -385,6 +385,6 @@ def get_coordinates():
             sleep(1)
             if index > 5:
                 x, y, z = ee_position
-                x = -(x-0.01)
+                x = -(x-0.04)
                 y = -y
                 return x,y,z
