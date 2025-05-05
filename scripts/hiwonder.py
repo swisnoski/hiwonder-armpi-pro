@@ -9,8 +9,10 @@ import time
 import numpy as np
 from ros_robot_controller_sdk import Board
 from bus_servo_control import *
-
 import utils as ut
+import utils2
+
+from arm_models import FiveDOFRobot
 
 # Robot base constants
 WHEEL_RADIUS = 0.047  # meters
@@ -24,7 +26,7 @@ class HiwonderRobot:
         self.board.enable_reception()
         self.bsc = BusServoControl(self.board)
 
-        self.joint_values = [0, 0, 90, -30, 0, 0]  # degrees
+        self.joint_values = [0, 0, 120, -60, 0, 0]  # degrees
         self.home_position = [0, 0, 120, -60, 0, 0]  # degrees
         self.joint_limits = [
             [-120, 120], [-90, 90], [-120, 120],
@@ -33,6 +35,8 @@ class HiwonderRobot:
         self.joint_control_delay = 0.2 # secs
         self.speed_control_delay = 0.2
         self.time_out = 100
+
+        self.robot = FiveDOFRobot()
 
         self.move_to_home_position()
 
@@ -91,6 +95,42 @@ class HiwonderRobot:
     # -------------------------------------------------------------
     # Methods for interfacing with the 5-DOF robotic arm
     # -------------------------------------------------------------
+
+    def go_to_position_high(self, pos):
+        EE = utils2.EndEffector(pos[0], pos[1], 0.05, self.robot.ee.rotx, self.robot.ee.roty, self.robot.ee.rotz)
+        theta = np.degrees(self.robot.solve_inverse_kinematics(EE, tol=0.01))
+        theta = np.append(theta, -120)
+        # print(theta)
+        self.set_joint_values(theta)
+
+    def go_to_position_low(self, pos):
+        EE = utils2.EndEffector(pos[0], pos[1], 0.01, self.robot.ee.rotx, self.robot.ee.roty, self.robot.ee.rotz)
+        theta = np.degrees(self.robot.solve_inverse_kinematics(EE, tol=0.01))
+        theta = np.append(theta, -120)
+        if theta[0] > 0: 
+            theta[0] = theta[0]*3
+        if EE.x > 0.25: 
+            theta[3] -= 3
+        theta[1] -= 3
+        theta[2] += 3
+        theta[3] -= 3
+        # print(theta)
+        self.set_joint_values(theta)
+        return theta
+
+    def go_to_position_close(self, theta):
+        theta[5] = 90
+        self.set_joint_values(theta)
+
+    def go_to_position_sort(self, color):
+        if color == 'red':
+            theta = []
+
+        if color == 'green':
+            theta = []
+        # print(theta)
+        self.set_joint_values(theta)
+
 
     def set_arm_velocity(self, cmd: ut.GamepadCmds):
         """Calculates and sets new joint angles from linear velocities.

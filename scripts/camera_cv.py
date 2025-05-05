@@ -379,4 +379,4 @@ def get_coordinates():
                 x, y, z = ee_position
                 x = -(x-0.01)
                 y = -y
-                return [x,y,z]
+                return x,y,z
