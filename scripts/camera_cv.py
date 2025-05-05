@@ -17,6 +17,8 @@ K = np.array([
     [0.0,      0.0,   1.0]
 ])
 
+block_color = None
+
 distortion = np.array([-0.5216, 0.3509, -0.000534, 4.867e-05, -0.1439])
 
 u0 = K[0, 2]
@@ -134,52 +136,78 @@ def april_tag_board_corner(frame):
     return img # Return numpy image (BGR)
 
 
-### RED BOX COLOR DETECTION
-# Lower “red end” of the spectrum
-lower1 = np.array([0,   100, 100])   # H: 0–10 (reds), S/V: ≥100
-upper1 = np.array([10,  255, 255])
-# Upper “red end” of the spectrum
-lower2 = np.array([160, 100, 100])   # H: 160–179 (reds), S/V: ≥100
-upper2 = np.array([179, 255, 255])
+### POSITION AND COLOR DETECTION
+
+# Red low hue range
+lower_red1 = np.array([0, 100, 100])
+upper_red1 = np.array([10, 255, 255])
+# Red high hue range
+lower_red2 = np.array([160, 100, 100])
+upper_red2 = np.array([179, 255, 255])
+
+lower_green = np.array([40, 100, 100])
+upper_green = np.array([85, 255, 255])
+
+color_defs = {
+        "red": [
+            (lower_red1, upper_red1),
+            (lower_red2, upper_red2)
+        ],
+        "green": [
+            (lower_green, upper_green)
+        ]
+    }
+
 kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (5, 5))
-red_positions = np.empty(shape=[0, 2])
+positions = np.empty(shape=[0, 2])
 
 def draw_red_boxes(frame, target_rgb=(230, 50, 50)):
+    global block_color
     hsv = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
-    mask = cv.bitwise_or(cv.inRange(hsv, lower1, upper1), cv.inRange(hsv, lower2, upper2))
-    mask = cv.morphologyEx(mask, cv.MORPH_OPEN, kernel, iterations=2)
-    mask = cv.morphologyEx(mask, cv.MORPH_DILATE, kernel, iterations=1)
-    contours, _ = cv.findContours(mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+
     target_bgr = np.array(target_rgb[::-1], dtype=np.float32)
     out = frame.copy()
     red_index = 0
-    red_positions = np.empty(shape=[0, 2])
+    positions = np.empty(shape=[0, 2])
     robo_position = None
-    for cnt in contours:
-        if cv.contourArea(cnt) < 500:
-            continue
-        c_mask = np.zeros(mask.shape, np.uint8)
-        cv.drawContours(c_mask, [cnt], -1, 255, -1)
-        mean_val = cv.mean(frame, mask=c_mask)[:3]
-        mean_bgr = np.array(mean_val, dtype=np.float32)
-        dist = np.linalg.norm(mean_bgr - target_bgr)
-        if dist < 60:
-            # Check if all points of the contour are inside the board_contour
-            inside = False
-            for point in cnt:
-                pt = tuple(int(x) for x in point[0])
-                if board_contour is not None:
-                    result = cv.pointPolygonTest(board_contour, pt, True)
-                    if result >= 0:
-                        inside = True
-                        break
-            if inside:
-                x, y, w, h = cv.boundingRect(cnt)
-                red_positions = np.append(red_positions, [[x + w/2, y + h/2]], axis=0)
-                out, robo_position = calc_object_positions(Image(out, colororder='BGR'), red_positions)
-                red_index += 1
-                # cv.rectangle(out, (x, y), (x + w, y + h), (0, 0, 255), 2)
-            
+    for color, ranges in color_defs.items():
+        mask = np.zeros(hsv.shape[:2], dtype=np.uint8)
+        for lower, upper in ranges:
+            mask = cv.bitwise_or(mask, cv.inRange(hsv, lower, upper))
+
+        mask = cv.morphologyEx(mask, cv.MORPH_OPEN, kernel, iterations=2)
+        mask = cv.morphologyEx(mask, cv.MORPH_DILATE, kernel, iterations=1)
+        contours, _ = cv.findContours(mask, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+
+        for cnt in contours:
+            if cv.contourArea(cnt) < 500:
+                continue
+            c_mask = np.zeros(mask.shape, np.uint8)
+            cv.drawContours(c_mask, [cnt], -1, 255, -1)
+            mean_val = cv.mean(frame, mask=c_mask)[:3]
+            mean_bgr = np.array(mean_val, dtype=np.float32)
+            dist = np.linalg.norm(mean_bgr - target_bgr)
+            if dist < 60:
+                # Check if all points of the contour are inside the board_contour
+                inside = False
+                for point in cnt:
+                    pt = tuple(int(x) for x in point[0])
+                    if board_contour is not None:
+                        result = cv.pointPolygonTest(board_contour, pt, True)
+                        if result >= 0:
+                            inside = True
+                            break
+                if inside:
+                    x, y, w, h = cv.boundingRect(cnt)
+                    positions = np.append(positions, [[x + w/2, y + h/2]], axis=0)
+                    out, robo_position = calc_object_positions(Image(out, colororder='BGR'), positions)
+                    red_index += 1
+                    if color == 'red':
+                        block_color = "red"
+                    if color == 'green':
+                        block_color = "green"
+                    # cv.rectangle(out, (x, y), (x + w, y + h), (0, 0, 255), 2)
+                
     return out, robo_position
 
 
@@ -385,6 +413,6 @@ def get_coordinates():
             sleep(1)
             if index > 5:
                 x, y, z = ee_position
-                x = -(x-0.01)
+                x = -(x-0.015)
                 y = -y
-                return x,y,z
+                return x,y,z, block_color

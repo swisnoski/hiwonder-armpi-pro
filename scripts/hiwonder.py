@@ -118,16 +118,20 @@ class HiwonderRobot:
         self.set_joint_values(theta)
         return theta
 
-    def go_to_position_close(self, theta):
+    def close(self, theta):
         theta[5] = 90
         self.set_joint_values(theta)
 
-    def go_to_position_sort(self, color):
+    def open(self, theta):
+        theta[5] = -90
+        self.set_joint_values(theta)
+
+    def sort(self, color):
         if color == 'red':
-            theta = []
+            theta = [180, 0, 90, -30, 0, 90]
 
         if color == 'green':
-            theta = []
+            theta = [-180, 0, 90, -30, 0, 90]
         # print(theta)
         self.set_joint_values(theta)
 
