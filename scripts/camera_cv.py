@@ -361,33 +361,33 @@ def convert_for_imshow(frame):
 
 ### MAIN LOOP
 
-video_id = 0
-cap = cv.VideoCapture(video_id)
-ee_position = None
+# video_id = 0
+# cap = cv.VideoCapture(video_id)
+# ee_position = None
 
-while True:
-    ret, frame0 = cap.read()
+# while True:
+#     ret, frame0 = cap.read()
     
     
-    if ret:
-        frame1 = undistort(frame0) # Undistort
-        frame2 = april_tag_board_corner(frame1) # Draw ArUco board
-        frame3 = convert_for_imshow(frame2)
-        frame4, ee_position = draw_boxes(frame3)
-        #frame5 = chessboard_corner(Image(frame4, colororder='BGR'))
-    else:
-        print("Failed to capture frame")
-        break
+#     if ret:
+#         frame1 = undistort(frame0) # Undistort
+#         frame2 = april_tag_board_corner(frame1) # Draw ArUco board
+#         frame3 = convert_for_imshow(frame2)
+#         frame4, ee_position = draw_boxes(frame3)
+#         #frame5 = chessboard_corner(Image(frame4, colororder='BGR'))
+#     else:
+#         print("Failed to capture frame")
+#         break
 
-    # Show
-    frame6 = convert_for_imshow(frame4)
-    cv.imshow("RED CUBE DETECTOR", frame6)
-    if ee_position is not None:
-        print(ee_position)
-    cv.waitKey(1)
+#     # Show
+#     frame6 = convert_for_imshow(frame4)
+#     cv.imshow("RED CUBE DETECTOR", frame6)
+#     if ee_position is not None:
+#         print(ee_position)
+#     cv.waitKey(1)
 
-cap.release()
-cv.destroyAllWindows()
+# cap.release()
+# cv.destroyAllWindows()
 
 
 def cv_main(ret, frame0):
@@ -402,9 +402,9 @@ def cv_main(ret, frame0):
     return None
 
 
-# video_id = 0
-# cap = cv.VideoCapture(video_id)
-# ee_position = None
+video_id = 0
+cap = cv.VideoCapture(video_id)
+ee_position = None
 
 
 def get_coordinates():
