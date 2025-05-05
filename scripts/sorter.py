@@ -37,10 +37,5 @@ def main():
         robot.open(theta)
         sleep(2)
 
-
-
-
-
-
 if __name__ == "__main__":
     main()
