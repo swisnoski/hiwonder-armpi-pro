@@ -406,6 +406,7 @@ video_id = 0
 cap = cv.VideoCapture(video_id)
 ee_position = None
 
+last_coords = None
 
 def get_coordinates():
     index = 0
@@ -415,10 +416,11 @@ def get_coordinates():
         if ee_position is not None:
             index += 1
             x, y, z = ee_position
+            x = -(x-0.04)
+            y = -y
             ee_position = None
             sleep(1)
-            if index > 3:
-                x = -(x-0.04)
-                y = -y
+            if index > 3 and last_coords != [int(x), int(y)]:
                 ee_position = None
+                last_coords = [int(x), int(y)]
                 return x,y,z,block_color
