@@ -428,11 +428,15 @@ def get_coordinates():
             x = -(x-0.04)
             y = -y
             sleep(1)
-            if last_coords == [int(x), int(y)]:
+            x_rounded = round(x, 2)
+            y_rounded = round(y, 2)
+            # Check if the rounded coordinates match last_coords
+            if last_coords == [x_rounded, y_rounded]:
                 print('match!')
                 index = 0
+            
             if index > 5:
                 ee_position = None
-                last_coords = [int(x), int(y)]
+                last_coords = [x_rounded, y_rounded]
                 sleep(2)
-                return x,y,z,block_color
+                return x, y, z, block_color
