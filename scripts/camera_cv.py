@@ -145,8 +145,8 @@ upper_red1 = np.array([10, 255, 255])
 lower_red2 = np.array([160, 100, 100])
 upper_red2 = np.array([179, 255, 255])
 
-lower_green = np.array([40, 80, 40])
-upper_green = np.array([85, 255, 180])
+lower_green = np.array([35, 10, 5])  
+upper_green = np.array([90, 255, 255])
 
 target_rgb_map = {
     "red": (230, 50, 50),
@@ -192,7 +192,7 @@ def draw_boxes(frame, target_rgb=(230, 50, 50)):
             mean_val = cv.mean(frame, mask=c_mask)[:3]
             mean_bgr = np.array(mean_val, dtype=np.float32)
             dist = np.linalg.norm(mean_bgr - target_bgr)
-            if dist < 60:
+            if dist < 80:
                 # Check if all points of the contour are inside the board_contour
                 inside = False
                 for point in cnt:
@@ -361,33 +361,33 @@ def convert_for_imshow(frame):
 
 ### MAIN LOOP
 
-# video_id = 0
-# cap = cv.VideoCapture(video_id)
-# ee_position = None
+video_id = 0
+cap = cv.VideoCapture(video_id)
+ee_position = None
 
-# while True:
-#     ret, frame0 = cap.read()
+while True:
+    ret, frame0 = cap.read()
     
     
-#     if ret:
-#         frame1 = undistort(frame0) # Undistort
-#         frame2 = april_tag_board_corner(frame1) # Draw ArUco board
-#         frame3 = convert_for_imshow(frame2)
-#         frame4, ee_position = draw_boxes(frame3)
-#         #frame5 = chessboard_corner(Image(frame4, colororder='BGR'))
-#     else:
-#         print("Failed to capture frame")
-#         break
+    if ret:
+        frame1 = undistort(frame0) # Undistort
+        frame2 = april_tag_board_corner(frame1) # Draw ArUco board
+        frame3 = convert_for_imshow(frame2)
+        frame4, ee_position = draw_boxes(frame3)
+        #frame5 = chessboard_corner(Image(frame4, colororder='BGR'))
+    else:
+        print("Failed to capture frame")
+        break
 
-#     # Show
-#     frame6 = convert_for_imshow(frame4)
-#     cv.imshow("RED CUBE DETECTOR", frame6)
-#     if ee_position is not None:
-#         print(ee_position)
-#     cv.waitKey(1)
+    # Show
+    frame6 = convert_for_imshow(frame4)
+    cv.imshow("RED CUBE DETECTOR", frame6)
+    if ee_position is not None:
+        print(ee_position)
+    cv.waitKey(1)
 
-# cap.release()
-# cv.destroyAllWindows()
+cap.release()
+cv.destroyAllWindows()
 
 
 def cv_main(ret, frame0):
