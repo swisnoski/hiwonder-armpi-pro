@@ -169,6 +169,8 @@ positions = np.empty(shape=[0, 2])
 
 def draw_boxes(frame, target_rgb=(230, 50, 50)):
     global block_color
+    global ee_position 
+    ee_position = None
     hsv = cv.cvtColor(frame, cv.COLOR_BGR2HSV)
     out = frame.copy()
     positions = np.empty(shape=[0, 2])
@@ -391,7 +393,9 @@ def convert_for_imshow(frame):
 
 
 def cv_main(ret, frame0):
+    global ee_position
     if ret:
+        ee_position = None
         frame1 = undistort(frame0) # Undistort
         frame2 = april_tag_board_corner(frame1) # Draw ArUco board
         frame3 = convert_for_imshow(frame2)
@@ -414,6 +418,7 @@ def get_coordinates():
     index = 0
     while True:
         ret, frame = cap.read()
+        ee_position = None
         ee_position = cv_main(ret, frame)
         if ee_position is not None:
             print(ee_position)
