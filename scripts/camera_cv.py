@@ -8,8 +8,16 @@ from time import sleep
 
 
 ### CALIBRATION
-images = ImageCollection("C:/Users/swisnoski/OneDrive - Olin College of Engineering/2025_01 Spring/FunRobo/Final Project/vision-control-venv/vision-based-control-module/calibration_imgs/*.png")
-K, distortion, _ = CentralCamera.images2C(images, gridshape=(9, 6), squaresize=30e-3)
+# images = ImageCollection("C:/Users/swisnoski/OneDrive - Olin College of Engineering/2025_01 Spring/FunRobo/Final Project/vision-control-venv/vision-based-control-module/calibration_imgs/*.png")
+# K, distortion, _ = CentralCamera.images2C(images, gridshape=(9, 6), squaresize=30e-3)
+
+K = np.array([
+    [532.6,    0.0, 248.6],
+    [0.0,    532.5, 269.5],
+    [0.0,      0.0,   1.0]
+])
+
+distortion = np.array([-0.5216, 0.3509, -0.000534, 4.867e-05, -0.1439])
 
 u0 = K[0, 2]
 v0 = K[1, 2]
