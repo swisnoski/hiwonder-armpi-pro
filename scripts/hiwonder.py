@@ -100,6 +100,8 @@ class HiwonderRobot:
         EE = utils2.EndEffector(pos[0], pos[1], 0.05, self.robot.ee.rotx, self.robot.ee.roty, self.robot.ee.rotz)
         theta = np.degrees(self.robot.solve_inverse_kinematics(EE, tol=0.01))
         theta = np.append(theta, -120)
+        if theta[0] > 0: 
+            theta[0] = theta[0]*2.5
         # print(theta)
         self.set_joint_values(theta)
 
@@ -108,7 +110,7 @@ class HiwonderRobot:
         theta = np.degrees(self.robot.solve_inverse_kinematics(EE, tol=0.01))
         theta = np.append(theta, -120)
         if theta[0] > 0: 
-            theta[0] = theta[0]*4
+            theta[0] = theta[0]*2.5
         if EE.x > 0.25: 
             theta[3] -= 3
         theta[1] -= 2
