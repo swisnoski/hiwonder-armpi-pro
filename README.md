@@ -3,7 +3,7 @@
 ### Project Overview: 
 The goal of this project is to mimic the behavior of our close friend, Camden James Droz. Not only is he an inspiration to us all, but more importantly, he is excellent at sorting objects by color. For our final project, we used computer vision and inverse kinematics to sort cubes of various colors into different locations. This is done by using an ArUco board to translate image coordinates to camera coordinates to world coordinates, and then transfrom from the board frame, to the camera frame, to the robotic frame. Lastly, use our IK algorithm to move our robotic arm to the desired end effector position and pick up the object. Mechanical CAMden is shown in action below: 
 
-<img src="media/gif_video.gif" height="275">  <img src="media/gif_video2.gif" height="275">
+<img src="media/gif_video.gif" height="400">  <img src="media/gif_video2.gif" height="400">
 
 ### Repository Information: 
 This repository provides the python libraries for interfacing with the Hiwonder 5-DOF mobile manipulator. We have modified the original reporsitory to add additional functionality to the Hiwonder 5-DOF mobile manipulator; we have added a sorter.py function as the final project of our Fundamentals of Robotics final. Our final report for the project can be found in this repo here: [Final Project Report.](https://github.com/swisnoski/hiwonder-armpi-pro/blob/v2025/Mechanical_CAMden_Technical_Report.pdf)
