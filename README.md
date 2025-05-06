@@ -1,12 +1,16 @@
-# Python Library for the Hiwonder 5-DOF Mobile Manipulator (v2025)
+# Computer Vision Sorting Robotic Arm: Mechanical CAMden
 
-This repository provides the python libraries for interfacing with the Hiwonder 5-DOF mobile manipulator. The robot platform has an onboard **Raspberry Pi 4B** which serves as the main compute unit of the system. The 5-DOF arm are driven by serial bus servos controlled over serial while the mobile base is driven by DC motors controlled by a custom driver board with communication over I2C.
+### Project Overview: 
+The goal of this project is to mimic the behavior of our close friend, Camden James Droz. Not only is he an inspiration to us all, but more importantly, he is excellent at sorting objects by color. For our final project, we used computer vision and inverse kinematics to sort cubes of various colors into different locations. This is done by using an ArUco board to translate image coordinates to camera coordinates to world coordinates, and then transfrom from the board frame, to the camera frame, to the robotic frame. Lastly, use our IK algorithm to move our robotic arm to the desired end effector position and pick up the object. Mechanical CAMden is shown in action below: 
 
-Your project development will be done onboard the Raspberry Pi ideally over **SSH protocol**.
+<img src="media/gif_video.gif" height="275">  <img src="media/gif_video2.gif" height="275">
 
-NOTE: This branch is to be used with the version of the robot that's using the **RasAdapter 5A V1.0 expansion board**.
+### Repository Information: 
+This repository provides the python libraries for interfacing with the Hiwonder 5-DOF mobile manipulator. We have modified the original reporsitory to add additional functionality to the Hiwonder 5-DOF mobile manipulator; we have added a sorter.py function as the final project of our Fundamentals of Robotics final. Our final report for the project can be found in this repo here: [Final Project Report.](https://github.com/swisnoski/hiwonder-armpi-pro/blob/v2025/Mechanical_CAMden_Technical_Report.pdf)
 
-<img src = "media/hiwonder.png" width="" height="400">
+### Robot Information:
+The robot platform has an onboard **Raspberry Pi 4B** which serves as the main compute unit of the system. The 5-DOF arm are driven by serial bus servos controlled over serial while the mobile base is driven by DC motors controlled by a custom driver board with communication over I2C. Our project development was completed onboard the Raspberry Pi over **SSH protocol**.
+
 
 ## Setting up the onboard Raspberry Pi
 
